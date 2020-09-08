@@ -23,11 +23,35 @@ function DisplayToDoItems() {
     }
     theTodoList.innerHTML = "";
   }
+
   for (let i = 0; i < todoList.length; i++) {
     console.log(todoList[i].name);
     let newlistitem = document.createElement("li");
     let node = document.createTextNode(todoList[i].name);
+
+    let deleteBtn = document.createElement("input");
+    let completeBtn = document.createElement("input");
+
+    deleteBtn.type = "button";
+    completeBtn.type = "button";
+    deleteBtn.value = "Delete";
+    completeBtn.value = "Complete";
+    deleteBtn.id = i+"-test";
+
+    //deleteBtn.addEventListener("click")
+    /*
+    so what can I do to delete the item both from the list and from the display?
+    well I can add a custom ID and have that as a parameter to the function for the delete/complete
+    I can also add a property for completion (delete just remove the item)
+    the custom ID could also be used to remove the item from the list
+
+    */
+   deleteBtn.addEventListener("click", function(){
+     console.log(this.id);
+   })
     newlistitem.appendChild(node);
+    newlistitem.appendChild(deleteBtn);
+    newlistitem.appendChild(completeBtn);
     theTodoList.appendChild(newlistitem);
   }
 }
