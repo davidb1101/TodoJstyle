@@ -6,6 +6,7 @@ todoAddAction.addEventListener("click", AddToDoItem);
 class todoItem {
   constructor(itemName) {
     this.name = itemName;
+    this.completed = false;
   }
 }
 
@@ -16,11 +17,8 @@ let todoList = [];
 function DisplayToDoItems() {
   let theTodoList = document.getElementById("todo-list");
 
-  console.log(theTodoList.innerHTML.length);
+
   if (theTodoList.innerHTML.length > 0) {
-    for (let j = 0; j < theTodoList.innerHTML.length; j++) {
-      console.log(theTodoList.innerHTML[j]);
-    }
     theTodoList.innerHTML = "";
   }
 
@@ -36,7 +34,8 @@ function DisplayToDoItems() {
     completeBtn.type = "button";
     deleteBtn.value = "Delete";
     completeBtn.value = "Complete";
-    deleteBtn.id = i+"-test";
+    deleteBtn.id = i+"-delete";
+    completeBtn.id = i+"-complete";
 
     //deleteBtn.addEventListener("click")
     /*
@@ -47,13 +46,29 @@ function DisplayToDoItems() {
 
     */
    deleteBtn.addEventListener("click", function(){
-     console.log(this.id);
+    deleteTodoItem(this.id);
+   })
+   completeBtn.addEventListener("click", function(){
+    completeTodoItem(this.id);
    })
     newlistitem.appendChild(node);
     newlistitem.appendChild(deleteBtn);
     newlistitem.appendChild(completeBtn);
     theTodoList.appendChild(newlistitem);
   }
+
+  console.log(theTodoList.innerHTML);
+}
+
+function deleteTodoItem(itemId)
+{
+  console.log(itemId);
+}
+
+
+function completeTodoItem(itemId)
+{
+  console.log(itemId);
 }
 
 function AddToDoItem() {
