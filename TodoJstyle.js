@@ -1,4 +1,3 @@
-
 const todoAddAction = document.getElementById("add-item");
 
 todoAddAction.addEventListener("click", AddToDoItem);
@@ -10,65 +9,73 @@ class todoItem {
   }
 }
 
-
 let todoList = [];
-
 
 function DisplayToDoItems() {
   let theTodoList = document.getElementById("todo-list");
+  let completedToDoList = document.getElementById("completed-todo-list");
 
-
+  //clears the list so it doesn't duplicate items on the page
   if (theTodoList.innerHTML.length > 0) {
     theTodoList.innerHTML = "";
   }
+  if (completedToDoList.innerHTML.length > 0) {
+    completedToDoList.innerHTML = "";
+  }
 
   for (let i = 0; i < todoList.length; i++) {
-    console.log(todoList[i].name);
-    let newlistitem = document.createElement("li");
-    let node = document.createTextNode(todoList[i].name);
+    if (todoList[i] !== null) {
+      console.log(todoList[i].name);
+      let newlistitem = document.createElement("li");
+      let node = document.createTextNode(todoList[i].name);
 
-    let deleteBtn = document.createElement("input");
-    let completeBtn = document.createElement("input");
+      let deleteBtn = document.createElement("input");
 
-    deleteBtn.type = "button";
-    completeBtn.type = "button";
-    deleteBtn.value = "Delete";
-    completeBtn.value = "Complete";
-    deleteBtn.id = i+"-delete";
-    completeBtn.id = i+"-complete";
+      deleteBtn.type = "button";
+      deleteBtn.value = "Delete";
+      deleteBtn.id = i + "-delete";
+      deleteBtn.addEventListener("click", function () {
+        deleteTodoItem(this.id);
+      });
 
-    //deleteBtn.addEventListener("click")
-    /*
-    so what can I do to delete the item both from the list and from the display?
-    well I can add a custom ID and have that as a parameter to the function for the delete/complete
-    I can also add a property for completion (delete just remove the item)
-    the custom ID could also be used to remove the item from the list
+      newlistitem.appendChild(node);
+      newlistitem.appendChild(deleteBtn);
 
-    */
-   deleteBtn.addEventListener("click", function(){
-    deleteTodoItem(this.id);
-   })
-   completeBtn.addEventListener("click", function(){
-    completeTodoItem(this.id);
-   })
-    newlistitem.appendChild(node);
-    newlistitem.appendChild(deleteBtn);
-    newlistitem.appendChild(completeBtn);
-    theTodoList.appendChild(newlistitem);
+      // checking to see if to add the Complete button if not completed
+      // otherwise will be put in Completed list without complete button
+      if (todoList[i].completed === false) {
+        let completeBtn = document.createElement("input");
+        completeBtn.type = "button";
+        completeBtn.value = "Complete";
+        completeBtn.id = i + "-complete";
+        completeBtn.addEventListener("click", function () {
+          completeTodoItem(this.id);
+        });
+        newlistitem.appendChild(completeBtn);
+        theTodoList.appendChild(newlistitem);
+      } else {
+        completedToDoList.appendChild(newlistitem);
+      }
+    }
   }
 
   console.log(theTodoList.innerHTML);
 }
 
-function deleteTodoItem(itemId)
-{
+function deleteTodoItem(itemId) {
   console.log(itemId);
+  id = itemId.split("-")[0];
+  todoList[id] = null;
+  DisplayToDoItems();
 }
 
-
-function completeTodoItem(itemId)
-{
+function completeTodoItem(itemId) {
   console.log(itemId);
+  //need to check each item in the list
+  id = itemId.split("-")[0];
+  todoList[id].completed = true;
+  console.log(todoList[id]);
+  DisplayToDoItems();
 }
 
 function AddToDoItem() {
